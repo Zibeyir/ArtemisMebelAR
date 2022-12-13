@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class MainButtons : MonoBehaviour
 {
-    [SerializeField]GameObject[] Canvases;
+    [SerializeField] GameObject[] Canvases;
     [SerializeField] GameObject[] ActiveButtons;
     [SerializeField] GameObject[] PassiveButtons;
+
     bool Activator;
+
     private void Start()
     {
         SelenstCanvas(0);

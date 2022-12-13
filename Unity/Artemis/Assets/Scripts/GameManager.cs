@@ -6,39 +6,22 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    [Header("Canvases")]
     public GameObject OtherCanvases;
     public GameObject ARCanvas;
     public GameObject LoginCanvas;
-
-    [SerializeField]List<GameObject> Canvases;
+    [SerializeField]List<GameObject> AllCanvasList;
 
     void Awake()
     {
         instance = this;
-        //if (instance == null)
-        //{
-        //    instance = this;
-        //    DontDestroyOnLoad(gameObject);
-        //}
-        //else if (instance != this)
-        //{
-        //    Destroy(gameObject);
-        //}   
-
         StartFunc();
     }
 
     private void StartFunc()
     {
         ARCanvas.SetActive(false);
-        if (1 == PlayerPrefs.GetInt("Login", 0) ? true : false)
-        {
-            ActivatedCanvas(OtherCanvases);
-        }
-        else
-        {
-            ActivatedCanvas(LoginCanvas);
-        }
+        ActivatedCanvas(1 == PlayerPrefs.GetInt("Login", 0) ? OtherCanvases : LoginCanvas);
     }
 
     public void MebelButton()
@@ -56,10 +39,19 @@ public class GameManager : MonoBehaviour
 
     public void ActivatedCanvas(GameObject gameObject)
     {
-        foreach (GameObject item in Canvases)
+        foreach (GameObject item in AllCanvasList)
         {
             item.SetActive(gameObject == item);
         }
     }
 
 }
+//if (instance == null)
+//{
+//    instance = this;
+//    DontDestroyOnLoad(gameObject);
+//}
+//else if (instance != this)
+//{
+//    Destroy(gameObject);
+//}   
