@@ -48,6 +48,7 @@ namespace TriLibCore
         private void Start()
         {
             Register();
+            gameObject.AddComponent<ObjectController>();
         }
 
         private void OnDestroy()
