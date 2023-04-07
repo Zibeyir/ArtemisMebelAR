@@ -17,6 +17,8 @@ public class ARPlacement : MonoBehaviour
     [SerializeField] LoadModelFromURLSample loadModelFromURLSample;
     public Vector3 position;
     public Quaternion rotation;
+    bool SpawnObjectBool = false;
+    public int CountDownland=0;
     void Start()
     {
         aRRaycastManager = FindObjectOfType<ARRaycastManager>();
@@ -25,12 +27,12 @@ public class ARPlacement : MonoBehaviour
     // need to update placement indicator, placement pose and spawn 
     void Update()
     {
-        if (spawnedObject == null && placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        if (spawnedObject == null && placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began&&CountDownland==0)
         {
             ARPlaceObject();
         }
 
-
+        if (SpawnObjectBool) return;
         UpdatePlacementPose();
         UpdatePlacementIndicator();
 
@@ -68,6 +70,12 @@ public class ARPlacement : MonoBehaviour
         loadModelFromURLSample.StartDownland();
         rotation = PlacementPose.rotation;
         position = PlacementPose.position;
+        CountDownland++;
     }
-
+    public void SpawnObjectActive()
+    {
+        SpawnObjectBool = true;
+        placementIndicator.SetActive(false);
+        FindObjectOfType<Photo>().TurnOfInPhoto.SetActive(false);
+    }
 }

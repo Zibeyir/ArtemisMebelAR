@@ -13,6 +13,7 @@ public class ObjectController : MonoBehaviour
         gameObject.AddComponent<LeanDragTranslate>();
         gameObject.AddComponent<LeanTwistRotateAxis>();
         ARPlacement ar = FindObjectOfType<ARPlacement>();
+        ar.SpawnObjectActive();
         transform.position = ar.position;
         transform.rotation = ar.rotation;
     }
