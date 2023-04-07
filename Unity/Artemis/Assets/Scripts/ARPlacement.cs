@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using TriLibCore.Samples;
 
 public class ARPlacement : MonoBehaviour
 {
@@ -12,7 +13,10 @@ public class ARPlacement : MonoBehaviour
     private Pose PlacementPose;
     private ARRaycastManager aRRaycastManager;
     private bool placementPoseIsValid = false;
-
+    public Camera camera;
+    [SerializeField] LoadModelFromURLSample loadModelFromURLSample;
+    public Vector3 position;
+    public Quaternion rotation;
     void Start()
     {
         aRRaycastManager = FindObjectOfType<ARRaycastManager>();
@@ -47,7 +51,7 @@ public class ARPlacement : MonoBehaviour
 
     void UpdatePlacementPose()
     {
-        var screenCenter = Camera.current.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
+        var screenCenter = camera.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
         var hits = new List<ARRaycastHit>();
         aRRaycastManager.Raycast(screenCenter, hits, TrackableType.Planes);
 
@@ -60,7 +64,10 @@ public class ARPlacement : MonoBehaviour
 
     void ARPlaceObject()
     {
-        spawnedObject = Instantiate(arObjectToSpawn, PlacementPose.position, PlacementPose.rotation);
+        //  spawnedObject = Instantiate(arObjectToSpawn, PlacementPose.position, PlacementPose.rotation);
+        loadModelFromURLSample.StartDownland();
+        rotation = PlacementPose.rotation;
+        position = PlacementPose.position;
     }
 
 }
