@@ -9,13 +9,19 @@ public class ObjectController : MonoBehaviour
     {
         
 
-        transform.localScale = new Vector3(.1f, .1f, 0.1f);
-        gameObject.AddComponent<LeanDragTranslate>();
+        transform.localScale = new Vector3(.05f, .05f, 0.05f);
+        //gameObject.AddComponent<LeanDragTranslate>();
         gameObject.AddComponent<LeanTwistRotateAxis>();
         ARPlacement ar = FindObjectOfType<ARPlacement>();
         ar.SpawnObjectActive();
         transform.position = ar.position;
         transform.rotation = ar.rotation;
+        BoxCollider col= gameObject.AddComponent<BoxCollider>();
+        col.center = new Vector3(0, 10, 0);
+        col.size = new Vector3(40, 20, 10);
+        
+        FindObjectOfType<PlacementWithDraggingDroppingController>().placedObject=this.gameObject;
+       
     }
 
     // Update is called once per frame

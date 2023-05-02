@@ -24,7 +24,7 @@ public class PlacementWithDraggingDroppingController : MonoBehaviour
     [SerializeField]
     private float defaultRotation = 0;
 
-    private GameObject placedObject;
+    public GameObject placedObject;
 
     private Vector2 touchPosition = default;
 
@@ -39,19 +39,19 @@ public class PlacementWithDraggingDroppingController : MonoBehaviour
     void Awake()
     {
         arRaycastManager = GetComponent<ARRaycastManager>();
-        dismissButton.onClick.AddListener(Dismiss);
+        //dismissButton.onClick.AddListener(Dismiss);
 
-        if (lockButton != null)
-        {
-            lockButton.onClick.AddListener(Lock);
-        }
+        //if (lockButton != null)
+        //{
+        //    lockButton.onClick.AddListener(Lock);
+        //}
     }
-    private void Dismiss() => welcomePanel.SetActive(false);
+    //private void Dismiss() => welcomePanel.SetActive(false);
 
     private void Lock()
     {
         isLocked = !isLocked;
-        lockButton.GetComponentInChildren<Text>().text = isLocked ? "Locked" : "Unlocked";
+        //lockButton.GetComponentInChildren<Text>().text = isLocked ? "Locked" : "Unlocked";
         //if (placedObject != null)
         //{
         //    placedObject.GetComponent<PlacementObject>()
@@ -62,8 +62,7 @@ public class PlacementWithDraggingDroppingController : MonoBehaviour
     void Update()
     {
         // do not capture events unless the welcome panel is hidden
-        if (welcomePanel.activeSelf)
-            return;
+   
 
         if (Input.touchCount > 0)
         {
@@ -78,11 +77,13 @@ public class PlacementWithDraggingDroppingController : MonoBehaviour
                 if (Physics.Raycast(ray, out hitObject))
                 {
                     //PlacementObject placementObject = hitObject.transform.GetComponent<PlacementObject>();
-                    //if (placementObject != null)
-                    //{
-                    //    onTouchHold = isLocked ? false : true;
-                    //    placementObject.SetOverlayText(isLocked ? "AR Object Locked" : "AR Object Unlocked");
-                    //}
+                    if (placedObject != null)
+                    {
+                        onTouchHold = true;
+
+                        //onTouchHold = isLocked ? false : true;
+                        //  placementObject.SetOverlayText(isLocked ? "AR Object Locked" : "AR Object Unlocked");
+                    }
                 }
             }
 
@@ -96,28 +97,17 @@ public class PlacementWithDraggingDroppingController : MonoBehaviour
         {
             Pose hitPose = hits[0].pose;
 
-            if (placedObject == null)
-            {
-                if (defaultRotation > 0)
-                {
-                    placedObject = Instantiate(placedPrefab, hitPose.position, Quaternion.identity);
-                    placedObject.transform.Rotate(Vector3.up, defaultRotation);
-                }
-                else
-                {
-                    placedObject = Instantiate(placedPrefab, hitPose.position, hitPose.rotation);
-                }
-            }
-            else
+            if (placedObject != null)
             {
                 if (onTouchHold)
                 {
                     placedObject.transform.position = hitPose.position;
-                    if (defaultRotation == 0)
-                    {
-                        placedObject.transform.rotation = hitPose.rotation;
-                    }
+
                 }
+            }
+            else
+            {
+              
             }
         }
     }
